@@ -42,9 +42,9 @@ class Floor {
         return  number;
     }
 
-    void getInfo(){
+    void getAllInfo(){
         System.out.println ("Floor " + number);
         for (int i = 0; i < apartments.length; ++i)
-            apartments[i].getInfo();
+            apartments[i].getAllInfo();
     }
 }

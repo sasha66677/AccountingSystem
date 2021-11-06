@@ -29,11 +29,45 @@ public class House {
         return number;
     }
 
-    public void getInfo() {
-        System.out.println("House №" + number);
-        for (int i = 0; i < floors.length; ++i)
-            floors[i].getInfo();
+    public int getNumFloors() {
+        return floors.length + 1;
     }
 
+    public void getAllInfo() {
+        System.out.println("House №" + number);
+        for (int i = 0; i < floors.length; ++i)
+            floors[i].getAllInfo();
+    }
+public void getInfo(){
+    String str = String.format("%.2f", this.getArea());
+    System.out.println("\nNumber : " + this.getNumber() + "\nNumber of floors: " + this.getNumFloors() +
+            "\nArea: " + str + ", Peoples: " + this.getNumPeoples());
+}
+    static public void compare(House x1, House x2) {
+        x1.getInfo();
+        x2.getInfo();
+        System.out.println();
 
+        if (x1.getNumFloors() > x2.getNumFloors())
+            System.out.println("The height of the house №" + x1.number + " is greater than the height of the house №" + x2.number);
+        else if (x1.getNumFloors() < x2.getNumFloors())
+            System.out.println("The height of the house №" + x2.number + " is greater than the height of the house №" + x1.number);
+        else
+            System.out.println("The height of the house №" + x2.number + " is equal to the height of the house №" + x1.number);
+
+        if (x1.getArea() > x2.getArea())
+            System.out.println("The area of the house №" + x1.number + " is larger than the area of the house №" + x2.number);
+        else if (x1.getArea() < x2.getArea())
+            System.out.println("The area of the house №" + x2.number + " is larger than the area of the house №" + x1.number);
+        else
+            System.out.println("The area of the house №" + x1.number + " is equal to the area of the house №" + x2.number);
+
+
+        if (x1.getNumPeoples() > x2.getNumPeoples())
+            System.out.println("The number of people in the house №" + x1.number + " is more than in the house №" + x2.number);
+        else if (x1.getNumPeoples() < x2.getNumPeoples())
+            System.out.println("The number of people in the house №" + x2.number + " is more than in the house №" + x1.number);
+        else
+            System.out.println("The number of people in the house №" + x2.number + " is equal to number of people in the house №" + x1.number);
+    }
 }

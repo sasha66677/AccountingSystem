@@ -5,10 +5,10 @@ import HousePackage.House;
 public class Main{
     public static void main(String[] args) {
         var x = new House();
+        //x.getAllInfo();
+        var x1 = new House();
 
-        x.getInfo();
-        System.out.println("\n" + x.getNumber());
-        System.out.print(x.getArea() + "   " + x.getNumPeoples());
+        House.compare(x, x1);
     }
 
 }
