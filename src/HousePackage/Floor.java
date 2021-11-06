@@ -1,15 +1,15 @@
 package HousePackage;
 
 class Floor {
-    private static int floorID = 1;
     private int apartmentID;//to control number of apartment
+    static final int minNumApartment = 100;
     private int number;
-    private Apartment[] apartments;
+    Apartment[] apartments;
 
-    Floor() {
+    Floor(int number) {
         int numApartments = (int) (Math.random()*10+1);
-        number = floorID++;
-        apartmentID = number*1000 + 1;
+        this.number = number;
+        apartmentID = number*minNumApartment + 1;
         apartments = new Apartment[numApartments];
 
         for (int i = 0; i < numApartments; ++i){
