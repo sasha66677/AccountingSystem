@@ -5,13 +5,25 @@ class Apartment {
     private double area;
     private int peoples;
 
-    public Apartment(int number, double area, int peoples){
+    Apartment(int number, double area, int peoples){
         this.peoples = peoples;
         this.area = area;
         this.number = number;
     }
 
-    protected void getInfo() {
+    double getArea() {
+        return area;
+    }
+
+    int getNumPeoples() {
+        return peoples;
+    }
+
+    int getNumber(){
+        return  number;
+    }
+
+    void getInfo() {
         String str = String.format("%.2f", area);
         System.out.println("Number " + number + " Area " + str + " Peoples " + peoples);
     }
