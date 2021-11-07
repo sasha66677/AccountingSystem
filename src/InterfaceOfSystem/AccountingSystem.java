@@ -32,6 +32,7 @@ public class AccountingSystem {
                     checkHouses();
                     break;
                 case 2:
+                    compareHouses();
                     break;
                 case 3:
 
@@ -44,6 +45,7 @@ public class AccountingSystem {
                     break;
                 default:
                     System.out.println("ERROR. Try again");
+                    return;
             }
         }
     }
@@ -69,6 +71,67 @@ public class AccountingSystem {
             return -1;
         return index;
     }
+
+    private static void compareHouses() {
+        if (houses.isEmpty()) {
+            System.out.println("There is no houses");
+            return;
+        }
+
+        System.out.print("write -1 to go menu\nHouses: ");
+        for (int i = 0; i < houses.size(); ++i)
+            System.out.print("№" + houses.get(i).getNumber() + " ");
+
+        int inVal = 0;
+        while (true) {
+            try {
+                System.out.print("\nWrite a number of first house: ");
+                Scanner in = new Scanner(System.in);
+                inVal = in.nextInt();
+
+                if (inVal == -1)
+                    return;
+
+                if (findHouse(inVal) == -1)
+                    throw new MyException("There is no house with this number\n");
+            } catch (InputMismatchException x1) {
+                System.out.println("ERROR. Try again");
+                continue;
+            } catch (MyException e) {
+                System.out.println(e.getException());
+                continue;
+            }
+            break;
+        }
+        int num1 = findHouse(inVal);
+
+        inVal = 0;
+        while (true) {
+            try {
+                System.out.print("\nWrite a number of second house: ");
+                Scanner in = new Scanner(System.in);
+                inVal = in.nextInt();
+
+                if (inVal == -1)
+                    return;
+
+                if (findHouse(inVal) == -1)
+                    throw new MyException("There is no house with this number\n");
+            } catch (InputMismatchException x1) {
+                System.out.println("ERROR. Try again");
+                continue;
+            } catch (MyException e) {
+                System.out.println(e.getException());
+                continue;
+            }
+            break;
+        }
+        int num2 = findHouse(inVal);
+
+        House.compare(houses.get(num1), houses.get(num2));
+
+    }
+
 
     private static void addHouse() {
         System.out.println("---Add a house---");
@@ -135,6 +198,8 @@ public class AccountingSystem {
 
 
 }
+
+
 
 class MyException extends Exception{
     String exception;
