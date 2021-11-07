@@ -24,7 +24,6 @@ class Apartment {
     }
 
     void getAllInfo() {
-        String str = String.format("%.2f", area);
-        System.out.println("Apartment " + number + " Area " + str + " Peoples " + peoples);
+        System.out.printf("Apartment %d Area %.2f Peoples %d\n",number,area, peoples);
     }
 }

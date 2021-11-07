@@ -43,9 +43,8 @@ public class House {
     }
 
     public void getInfo() {
-        String str = String.format("%.2f", this.getArea());
-        System.out.println("\nNumber : " + this.getNumber() + "\nNumber of floors: " + this.getNumFloors() +
-                "\nArea: " + str + ", Peoples: " + this.getNumPeoples());
+        System.out.printf("\nNumber : %d\nNumber of floors: %d\nArea: %.2f, Peoples: %d\n",
+                this.getNumber(), this.getNumFloors(), this.getArea(), this.getNumPeoples());
     }
 
     static public void compare(House x1, House x2) {
@@ -76,7 +75,7 @@ public class House {
             System.out.println("The number of people in the house №" + x2.number + " is equal to number of people in the house №" + x1.number);
     }
 
-    public static void compare(House x1, int numApartment_1, House x2, int numApartment_2) {
+    public static void compare (House x1, int numApartment_1, House x2, int numApartment_2) {
         int floor1 = numApartment_1 / Floor.minNumApartment - minNumFloor;
         int num1 = numApartment_1 % 10 - 1;
         if (floor1 >= x1.floors.length || num1 >= x1.floors[floor1].apartments.length) {
@@ -121,3 +120,4 @@ public class House {
                     " is equal to the number of people in №" + numApartment_2 + " (" + x2.number + ')');
     }
 }
+
