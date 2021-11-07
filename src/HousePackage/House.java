@@ -1,5 +1,8 @@
 package HousePackage;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class House {
     private static final int minNumFloor = 1;
     private int floorID = minNumFloor;
@@ -12,6 +15,27 @@ public class House {
         floors = new Floor[numFloors];
         for (int i = 0; i < numFloors; ++i)
             floors[i] = new Floor(floorID++);
+    }
+
+    public House(int number, int numFloors) {
+        this.number = number;
+        floors = new Floor[numFloors];
+        for (int i = 0; i < numFloors; ++i) {
+            System.out.println("\nFloor №" + (i+minNumFloor));
+            int numApartments = 0;
+            while (true) {
+                try {
+                    System.out.println("Number of apartments");
+                    Scanner in = new Scanner(System.in);
+                    numApartments = in.nextInt();
+                } catch (InputMismatchException x1) {
+                    System.out.println("ERROR. Try again");
+                    continue;
+                }
+                break;
+            }
+            floors[i] = new Floor(floorID++, numApartments);
+        }
     }
 
     public double getArea() {
@@ -43,7 +67,7 @@ public class House {
     }
 
     public void getInfo() {
-        System.out.printf("\nNumber : %d\nNumber of floors: %d\nArea: %.2f, Peoples: %d\n",
+        System.out.printf("\nHouse №%d\nNumber of floors: %d\nArea: %.2f, Peoples: %d\n",
                 this.getNumber(), this.getNumFloors(), this.getArea(), this.getNumPeoples());
     }
 

@@ -27,3 +27,4 @@ class Apartment {
         System.out.printf("Apartment %d Area %.2f Peoples %d\n",number,area, peoples);
     }
 }
+
