@@ -13,7 +13,7 @@ public class AccountingSystem {
         System.out.println("You are welcomed by the apartment accounting system");
 
         while (true) {
-            System.out.println("-----MENU-----");
+            System.out.println("\n\n-----MENU-----");
             System.out.println("1. Check houses");
             System.out.println("2. Compare houses");
             System.out.println("3. Compare apartments");
@@ -41,7 +41,7 @@ public class AccountingSystem {
                     addHouse();
                     break;
                 case 5:
-
+                    notificationHouse();
                     break;
                 default:
                     System.out.println("ERROR. Try again");
@@ -189,7 +189,6 @@ public class AccountingSystem {
         int apart1 = inVal;
 
 
-
         while (true) {
             try {
                 System.out.print("\nWrite a number of second house: ");
@@ -306,7 +305,101 @@ public class AccountingSystem {
         }
     }
 
+    private static void notificationHouse() {
+        if (houses.isEmpty()) {
+            System.out.println("There is no houses");
+            return;
+        }
 
+        System.out.print("write -1 to go menu\nHouses: ");
+        for (int i = 0; i < houses.size(); ++i)
+            System.out.print("№" + houses.get(i).getNumber() + " ");
+
+        int index;
+        while (true) {
+            int inVal;
+            try {
+                System.out.print("\nWrite a number of house: ");
+                Scanner in = new Scanner(System.in);
+                inVal = in.nextInt();
+
+                if (inVal == -1)
+                    return;
+
+                if (findHouse(inVal) == -1)
+                    throw new MyException("There is no house with this number\n");
+            } catch (InputMismatchException x1) {
+                System.out.println("ERROR. Try again");
+                continue;
+            } catch (MyException e) {
+                System.out.println(e.getException());
+                continue;
+            }
+            index = findHouse(inVal);
+            break;
+        }
+
+        houses.get(index).getAllInfo();
+
+
+
+            int inVal;
+            while (true) {
+                System.out.println("1. Set people in apartment");
+                System.out.println("2. Delete");
+                try {
+                    Scanner in = new Scanner(System.in);
+                    inVal = in.nextInt();
+
+                    if (inVal == -1) {
+                        System.out.println("ERROR. Try again");
+                        notificationHouse();
+                    }
+                    switch (inVal) {
+                        case 1:{
+                            int apartment;
+                            while (true) {
+                                try {
+                                    System.out.print("\nWrite a number of apartment: ");
+                                    Scanner in1 = new Scanner(System.in);
+                                    apartment = in1.nextInt();
+
+                                    if (apartment == -1)
+                                        notificationHouse();
+
+                                    if (!houses.get(index).isApartment(apartment))
+                                        throw new MyException("There is no apartment with this number\n");
+                                } catch (InputMismatchException x1) {
+                                    System.out.println("ERROR. Try again");
+                                    continue;
+                                } catch (MyException e) {
+                                    System.out.println(e.getException());
+                                    continue;
+                                }
+                                break;
+                            }
+
+                            houses.get(index).setPeople(apartment);
+                        }
+                        break;
+                        case 2:
+                            houses.remove(index);
+                        break;
+                        default:
+                        continue;
+                    }
+
+                } catch (InputMismatchException x1) {
+                    System.out.println("ERROR. Try again");
+                    continue;
+                }
+
+                break;
+            }
+
+
+
+    }
 }
 
 

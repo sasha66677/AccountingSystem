@@ -154,5 +154,33 @@ public class House {
             System.out.println("The number of people in the apartment №" + numApartment_1 + " (" + x1.number + ')' +
                     " is equal to the number of people in №" + numApartment_2 + " (" + x2.number + ')');
     }
+    public void setPeople(int numApartment){
+        if (!isApartment(numApartment)) {
+            System.out.println("\nApartment №" + numApartment + " in house №" + getNumber() +
+                    " isn't found");
+            return;
+        }
+        int index = numApartment % 10 - 1;;
+        int floor = numApartment / Floor.minNumApartment - minNumFloor;
+
+        int people;
+        while (true) {
+            try {
+                System.out.println("Number of people");
+                Scanner in = new Scanner(System.in);
+                people = in.nextInt();
+                if(people < 0){
+                    System.out.println("ERROR. Try again");
+                    continue;
+                }
+            } catch (InputMismatchException x1) {
+                System.out.println("ERROR. Try again");
+                continue;
+            }
+            break;
+        }
+
+        floors[floor].apartments[index].setPeoples(people);
+    }
 }
 

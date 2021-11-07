@@ -26,5 +26,8 @@ class Apartment {
     void getAllInfo() {
         System.out.printf("Apartment %d Area %.2f Peoples %d\n",number,area, peoples);
     }
+    void setPeoples(int numPeoples){
+        peoples = numPeoples;
+    }
 }
 
