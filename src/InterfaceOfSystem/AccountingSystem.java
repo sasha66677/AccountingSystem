@@ -35,7 +35,7 @@ public class AccountingSystem {
                     compareHouses();
                     break;
                 case 3:
-
+                    compareApartments();
                     break;
                 case 4:
                     addHouse();
@@ -45,7 +45,7 @@ public class AccountingSystem {
                     break;
                 default:
                     System.out.println("ERROR. Try again");
-                    return;
+
             }
         }
     }
@@ -132,8 +132,116 @@ public class AccountingSystem {
 
     }
 
+    private static void compareApartments() {
+        if (houses.isEmpty()) {
+            System.out.println("There is no houses");
+            return;
+        }
+
+        System.out.print("write -1 to go menu\nHouses: ");
+        for (int i = 0; i < houses.size(); ++i)
+            System.out.print("№" + houses.get(i).getNumber() + " ");
+
+        int inVal;
+        while (true) {
+            try {
+                System.out.print("\nWrite a number of first house: ");
+                Scanner in = new Scanner(System.in);
+                inVal = in.nextInt();
+
+                if (inVal == -1)
+                    return;
+
+                if (findHouse(inVal) == -1)
+                    throw new MyException("There is no house with this number\n");
+            } catch (InputMismatchException x1) {
+                System.out.println("ERROR. Try again");
+                continue;
+            } catch (MyException e) {
+                System.out.println(e.getException());
+                continue;
+            }
+            break;
+        }
+        int num1 = findHouse(inVal);
+
+
+        while (true) {
+            try {
+                System.out.print("\nWrite a number of apartment: ");
+                Scanner in = new Scanner(System.in);
+                inVal = in.nextInt();
+
+                if (inVal == -1)
+                    return;
+
+                if (!houses.get(num1).isApartment(inVal))
+                    throw new MyException("There is no apartment with this number\n");
+            } catch (InputMismatchException x1) {
+                System.out.println("ERROR. Try again");
+                continue;
+            } catch (MyException e) {
+                System.out.println(e.getException());
+                continue;
+            }
+            break;
+        }
+        int apart1 = inVal;
+
+
+
+        while (true) {
+            try {
+                System.out.print("\nWrite a number of second house: ");
+                Scanner in = new Scanner(System.in);
+                inVal = in.nextInt();
+
+                if (inVal == -1)
+                    return;
+
+                if (findHouse(inVal) == -1)
+                    throw new MyException("There is no house with this number\n");
+            } catch (InputMismatchException x1) {
+                System.out.println("ERROR. Try again");
+                continue;
+            } catch (MyException e) {
+                System.out.println(e.getException());
+                continue;
+            }
+            break;
+        }
+        int num2 = findHouse(inVal);
+
+
+        while (true) {
+            try {
+                System.out.print("\nWrite a number of apartment: ");
+                Scanner in = new Scanner(System.in);
+                inVal = in.nextInt();
+
+                if (inVal == -1)
+                    return;
+
+                if (!houses.get(num2).isApartment(inVal))
+                    throw new MyException("There is no apartment with this number\n");
+            } catch (InputMismatchException x1) {
+                System.out.println("ERROR. Try again");
+                continue;
+            } catch (MyException e) {
+                System.out.println(e.getException());
+                continue;
+            }
+            break;
+        }
+        int apart2 = inVal;
+
+        House.compare(houses.get(num1), apart1, houses.get(num2), apart2);
+
+    }
+
 
     private static void addHouse() {
+        System.out.println("write -1 to go menu");
         System.out.println("---Add a house---");
         System.out.println("1. By random");
         System.out.println("2. By manual input");
@@ -141,6 +249,8 @@ public class AccountingSystem {
         try {
             Scanner in = new Scanner(System.in);
             inVal = in.nextInt();
+            if (inVal == -1)
+                return;
         } catch (InputMismatchException x) {
             inVal = -1;
         }
