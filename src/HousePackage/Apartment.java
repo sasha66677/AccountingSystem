@@ -1,8 +1,8 @@
 package HousePackage;
 
 class Apartment {
-    private int number;
-    private double area;
+    private final int number;
+    private final double area;
     private int peoples;
 
     Apartment(int number, double area, int peoples){

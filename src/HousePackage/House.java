@@ -1,17 +1,17 @@
 package HousePackage;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import comRedkoAccountingSystem.Service;
+
 
 public class House {
     private static final int minNumFloor = 1;
     private int floorID = minNumFloor;
-    private Floor[] floors;
-    private int number;
+    private final Floor[] floors;
+    private final int number;
 
     public House() {
-        number = (int) (Math.random() * 50);
-        int numFloors = (int) (Math.random() * 5 + 1);
+        number = Service.getRandInt(1, 50);
+        int numFloors = Service.getRandInt(1, 5);
         floors = new Floor[numFloors];
         for (int i = 0; i < numFloors; ++i)
             floors[i] = new Floor(floorID++);
@@ -22,17 +22,12 @@ public class House {
         floors = new Floor[numFloors];
         for (int i = 0; i < numFloors; ++i) {
             System.out.println("\nFloor №" + (i + minNumFloor));
-            int numApartments = 0;
-            while (true) {
-                try {
-                    System.out.println("Number of apartments");
-                    Scanner in = new Scanner(System.in);
-                    numApartments = in.nextInt();
-                } catch (InputMismatchException x1) {
-                    System.out.println("ERROR. Try again");
-                    continue;
-                }
-                break;
+            System.out.println("Number of apartments");
+            int numApartments = Service.inputInt();
+            while (numApartments <= 0) {
+                System.out.println("Number of apartments should be >= 0");
+                System.out.println("Number of apartments");
+                numApartments = Service.inputInt();
             }
             floors[i] = new Floor(floorID++, numApartments);
         }
@@ -163,21 +158,12 @@ public class House {
         int index = numApartment % 10 - 1;;
         int floor = numApartment / Floor.minNumApartment - minNumFloor;
 
-        int people;
-        while (true) {
-            try {
-                System.out.println("Number of people");
-                Scanner in = new Scanner(System.in);
-                people = in.nextInt();
-                if(people < 0){
-                    System.out.println("ERROR. Try again");
-                    continue;
-                }
-            } catch (InputMismatchException x1) {
-                System.out.println("ERROR. Try again");
-                continue;
-            }
-            break;
+        System.out.println("Number of people");
+        int people = Service.inputInt();
+        while (people < 0) {
+            System.out.println("ERROR. Try again");
+            System.out.println("Number of people");
+            people = Service.inputInt();
         }
 
         floors[floor].apartments[index].setPeoples(people);

@@ -1,23 +1,22 @@
 package HousePackage;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import comRedkoAccountingSystem.Service ;
 
 class Floor {
     private int apartmentID;//to control number of apartment
     static final int minNumApartment = 100;
-    private int number;
+    private final int number;
     Apartment[] apartments;
 
     Floor(int number) {
-        int numApartments = (int) (Math.random()*10+1);
+        int numApartments = Service.getRandInt(1, 10);
         this.number = number;
         apartmentID = number*minNumApartment + 1;
         apartments = new Apartment[numApartments];
 
         for (int i = 0; i < numApartments; ++i){
-            int people = (int) (Math.random()*10);
-            double area = Math.random()*100.0 + 50;
+            int people = Service.getRandInt(0, 10);
+            double area = Service.getRandDouble(50, 100);
             var x = new Apartment(apartmentID++, area, people);
             apartments[i] = x;
         }
@@ -30,39 +29,21 @@ class Floor {
 
         for (int i = 0; i < numApartments; ++i){
             System.out.println("\nApartment №" + apartmentID);
-            int people = 0;
-            while (true) {
-                try {
-                    System.out.println("Number of people");
-                    Scanner in = new Scanner(System.in);
-                    people = in.nextInt();
-                    if(people < 0){
-                        System.out.println("ERROR. Try again");
-                        continue;
-                    }
-                } catch (InputMismatchException x1) {
-                    System.out.println("ERROR. Try again");
-                    continue;
-                }
-                break;
+
+            System.out.println("Number of people");
+            int people = Service.inputInt();
+            while (people < 0){
+                System.out.println("ERROR. Try again");
+                System.out.println("Number of people");
+                people = Service.inputInt();
             }
 
-
-            double area = 0;
-            while (true) {
-                try {
-                    System.out.println("Area");
-                    Scanner in = new Scanner(System.in);
-                    area = in.nextInt();
-                    if(area < 0){
-                        System.out.println("ERROR. Try again");
-                        continue;
-                    }
-                } catch (InputMismatchException x1) {
-                    System.out.println("ERROR. Try again");
-                    continue;
-                }
-                break;
+            System.out.println("Area");
+            double area = Service.inputDouble();
+            while (area < 0){
+                System.out.println("ERROR. Try again");
+                System.out.println("Area");
+                area = Service.inputDouble();
             }
 
 
