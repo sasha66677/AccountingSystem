@@ -1,25 +1,28 @@
-package HousePackage;
+package comRedkoAccountingSystem.house;
 
 import comRedkoAccountingSystem.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class House {
     private static final int minNumFloor = 1;
     private int floorID = minNumFloor;
-    private final Floor[] floors;
+    private final List<Floor> floors;
     private final int number;
 
     public House() {
         number = Service.getRandInt(1, 50);
         int numFloors = Service.getRandInt(1, 5);
-        floors = new Floor[numFloors];
+        floors = new ArrayList<>();
         for (int i = 0; i < numFloors; ++i)
-            floors[i] = new Floor(floorID++);
+            floors.add(i, new Floor(floorID++));
     }
 
     public House(int number, int numFloors) {
         this.number = number;
-        floors = new Floor[numFloors];
+        floors = new ArrayList<>();
         for (int i = 0; i < numFloors; ++i) {
             System.out.println("\nFloor №" + (i + minNumFloor));
             System.out.println("Number of apartments");
@@ -29,21 +32,21 @@ public class House {
                 System.out.println("Number of apartments");
                 numApartments = Service.inputInt();
             }
-            floors[i] = new Floor(floorID++, numApartments);
+            floors.add(i, new Floor(floorID++, numApartments));
         }
     }
 
     public double getArea() {
         double area = 0;
-        for (int i = 0; i < floors.length; ++i)
-            area += floors[i].getArea();
+        for (int i = 0; i < floors.size(); ++i)
+            area += floors.get(i).getArea();
         return area;
     }
 
     public int getNumPeoples() {
         int peoples = 0;
-        for (int i = 0; i < floors.length; ++i)
-            peoples += floors[i].getNumPeoples();
+        for (int i = 0; i < floors.size(); ++i)
+            peoples += floors.get(i).getNumPeoples();
         return peoples;
     }
 
@@ -52,13 +55,13 @@ public class House {
     }
 
     public int getNumFloors() {
-        return floors.length;
+        return floors.size();
     }
 
     public void getAllInfo() {
         System.out.println("House №" + number);
-        for (int i = 0; i < floors.length; ++i)
-            floors[i].getAllInfo();
+        for (int i = 0; i < floors.size(); ++i)
+            floors.get(i).getAllInfo();
     }
 
     public void getInfo() {
@@ -99,7 +102,7 @@ public class House {
             return false;
         int floor = numApartment / Floor.minNumApartment - minNumFloor;
         int index = numApartment % 10 - 1;
-        if (floor >= floors.length || index >= floors[floor].apartments.length)
+        if (floor >= floors.size() || index >= floors.get(floor).getNumApartments())
             return false;
         return true;
     }
@@ -107,55 +110,55 @@ public class House {
     public static void compare(House x1, int numApartment_1, House x2, int numApartment_2) {
         if (!x1.isApartment(numApartment_1)) {
             System.out.println("\nApartment №" + numApartment_1 + " in house №" + x1.getNumber() +
-                      " isn't found");
+                    " isn't found");
             return;
         }
-        int index1 = numApartment_1 % 10 - 1;;
-        int floor1 = numApartment_1 / Floor.minNumApartment - minNumFloor;
-
 
         if (!x2.isApartment(numApartment_2)) {
             System.out.println("\nApartment №" + numApartment_2 + " in house №" + x2.getNumber() +
-                     " isn't found");
+                    " isn't found");
             return;
         }
-        int index2 = numApartment_2 % 10 - 1;
+
+        int floor1 = numApartment_1 / Floor.minNumApartment - minNumFloor;
         int floor2 = numApartment_2 / Floor.minNumApartment - minNumFloor;
 
         System.out.println();
         System.out.print("House №" + x1.number + " ");
-        x1.floors[floor1].apartments[index1].getAllInfo();
+        x1.floors.get(floor1).getAllInfo(numApartment_1);
         System.out.print("House №" + x2.number + " ");
-        x2.floors[floor2].apartments[index2].getAllInfo();
+        x2.floors.get(floor2).getAllInfo(numApartment_2);
         System.out.println();
 
-        if (x1.floors[floor1].apartments[index1].getArea() > x2.floors[floor2].apartments[index2].getArea())
+        if (x1.floors.get(floor1).getArea(numApartment_1) > x2.floors.get(floor2).getArea(numApartment_2))
             System.out.println("The area of the apartment №" + numApartment_1 + " (" + x1.number + ')' +
                     " is larger than the area of the apartment №" + numApartment_2 + " (" + x2.number + ')');
-        else if (x1.floors[floor1].apartments[index1].getArea() < x2.floors[floor1].apartments[index2].getArea())
+        else if (x1.floors.get(floor1).getArea(numApartment_1) < x2.floors.get(floor1).getArea(numApartment_2))
             System.out.println("The area of the apartment №" + numApartment_2 + " (" + x2.number + ')' +
                     " is larger than the area of the apartment №" + numApartment_1 + " (" + x1.number + ')');
         else
             System.out.println("The area of the apartment №" + numApartment_1 + " (" + x1.number + ')' +
                     " is equal to the area of the apartment №" + numApartment_2 + " (" + x2.number + ')');
 
-        if (x1.floors[floor1].apartments[index1].getNumPeoples() > x2.floors[floor2].apartments[index2].getNumPeoples())
+        if (x1.floors.get(floor1).getNumPeoples(numApartment_1) > x2.floors.get(floor2).getNumPeoples(numApartment_2))
             System.out.println("The number of people in the apartment №" + numApartment_1 + " (" + x1.number + ')' +
                     " is larger than number of people in №" + numApartment_2 + " (" + x2.number + ')');
-        else if (x1.floors[floor1].apartments[index1].getNumPeoples() < x2.floors[floor1].apartments[index2].getNumPeoples())
+        else if (x1.floors.get(floor1).getNumPeoples(numApartment_1) < x2.floors.get(floor1).getNumPeoples(numApartment_2))
             System.out.println("The number of people in the apartment №" + numApartment_2 + " (" + x2.number + ')' +
                     " is larger than the number of people in №" + numApartment_1 + " (" + x1.number + ')');
         else
             System.out.println("The number of people in the apartment №" + numApartment_1 + " (" + x1.number + ')' +
                     " is equal to the number of people in №" + numApartment_2 + " (" + x2.number + ')');
     }
-    public void setPeople(int numApartment){
+
+
+    public void setPeople(int numApartment) {
         if (!isApartment(numApartment)) {
             System.out.println("\nApartment №" + numApartment + " in house №" + getNumber() +
                     " isn't found");
             return;
         }
-        int index = numApartment % 10 - 1;;
+
         int floor = numApartment / Floor.minNumApartment - minNumFloor;
 
         System.out.println("Number of people");
@@ -166,7 +169,7 @@ public class House {
             people = Service.inputInt();
         }
 
-        floors[floor].apartments[index].setPeoples(people);
+        floors.get(floor).setPeoples(numApartment, people);
     }
 }
 

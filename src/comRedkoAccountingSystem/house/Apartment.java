@@ -1,4 +1,4 @@
-package HousePackage;
+package comRedkoAccountingSystem.house;
 
 class Apartment {
     private final int number;

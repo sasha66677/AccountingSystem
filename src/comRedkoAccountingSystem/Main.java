@@ -1,7 +1,7 @@
-package Main;
+package comRedkoAccountingSystem;
 
 
-import InterfaceOfSystem.AccountingSystem;
+import comRedkoAccountingSystem.interfaceOfSystem.AccountingSystem;
 
 public class Main{
     public static void main(String[] args) {

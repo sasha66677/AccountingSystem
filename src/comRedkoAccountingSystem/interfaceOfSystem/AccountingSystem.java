@@ -1,6 +1,6 @@
-package InterfaceOfSystem;
+package comRedkoAccountingSystem.interfaceOfSystem;
 
-import HousePackage.House;
+import comRedkoAccountingSystem.house.House;
 import comRedkoAccountingSystem.Service;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class AccountingSystem {
                     addHouse();
                     break;
                 case 5:
-                    notificationHouse();
+                    customizeHouse();
                     break;
                 default:
                     System.out.println("ERROR. Try again");
@@ -203,7 +203,7 @@ public class AccountingSystem {
         }
     }
 
-    private static void notificationHouse() {
+    private static void customizeHouse() {
         if (houses.isEmpty()) {
             System.out.println("There is no houses");
             return;
@@ -234,7 +234,7 @@ public class AccountingSystem {
                     houses.remove(index);
                     break;
                 case -1:
-                    notificationHouse();
+                    customizeHouse();
                     return;
                 default:
                     System.out.println("ERROR. Try again");
