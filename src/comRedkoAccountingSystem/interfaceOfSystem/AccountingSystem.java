@@ -1,6 +1,7 @@
 package comRedkoAccountingSystem.interfaceOfSystem;
 
-import comRedkoAccountingSystem.house.House;
+import comRedkoAccountingSystem.house.CreateHouse;
+import comRedkoAccountingSystem.house.model.House;
 import comRedkoAccountingSystem.Service;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class AccountingSystem {
     }
 
     private static int inputNumberApartment(House house) {
-        System.out.print("\nWrite a number of apartment in house №" + house.getNumber() + ": ");
+        System.out.print("\nWrite a number of apartment in house №" + house.getNumOfHouse() + ": ");
         int numberApartment = Service.inputInt();
 
         if (numberApartment == -1)
@@ -90,7 +91,7 @@ public class AccountingSystem {
     private static int getIndexHouse(int number) {
         int index = 0;
         for (; index < houses.size(); ++index)
-            if (houses.get(index).getNumber() == number)
+            if (houses.get(index).getNumOfHouse() == number)
                 break;
         if (index == houses.size())
             return -1;
@@ -105,7 +106,7 @@ public class AccountingSystem {
 
         System.out.print("write -1 to go menu\nHouses: ");
         for (int i = 0; i < houses.size(); ++i)
-            System.out.print("№" + houses.get(i).getNumber() + " ");
+            System.out.print("№" + houses.get(i).getNumOfHouse() + " ");
 
         System.out.println();
         System.out.print("First house: ");
@@ -131,7 +132,7 @@ public class AccountingSystem {
 
         System.out.print("write -1 to go menu\nHouses: ");
         for (int i = 0; i < houses.size(); ++i)
-            System.out.print("№" + houses.get(i).getNumber() + " ");
+            System.out.print("№" + houses.get(i).getNumOfHouse() + " ");
 
         System.out.println();
         System.out.print("First house: ");
@@ -164,32 +165,16 @@ public class AccountingSystem {
         System.out.println("1. By random");
         System.out.println("2. By manual input");
 
+
         switch (Service.inputInt()) {
             case 1: {
-                House x = new House();
+                House x = CreateHouse.rand();
                 houses.add(x);
                 x.getInfo();
             }
             break;
             case 2: {
-                System.out.println("Number of house");
-                int numberHouse = Service.inputInt();
-
-                while (getIndexHouse(numberHouse) != -1) {
-                    System.out.println("There is already a house with this number");
-                    System.out.println("Number of house");
-                    numberHouse = Service.inputInt();
-                }
-
-                System.out.println("Number of floors");
-                int numFloors = Service.inputInt();
-                while (numFloors < 0) {
-                    System.out.println("Number of floors should be >= 0");
-                    System.out.println("\nNumber of floors");
-                    numFloors = Service.inputInt();
-                }
-
-                House x = new House(numberHouse, numFloors);
+                House x = CreateHouse.manual();
                 houses.add(x);
                 x.getInfo();
             }
@@ -211,7 +196,7 @@ public class AccountingSystem {
 
         System.out.print("write -1 to go menu\nHouses: ");
         for (int i = 0; i < houses.size(); ++i)
-            System.out.print("№" + houses.get(i).getNumber() + " ");
+            System.out.print("№" + houses.get(i).getNumOfHouse() + " ");
 
         int index = inputNumberHouse();
         if (index == -1)
