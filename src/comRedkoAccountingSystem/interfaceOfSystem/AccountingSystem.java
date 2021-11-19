@@ -1,18 +1,13 @@
 package comRedkoAccountingSystem.interfaceOfSystem;
 
-import comRedkoAccountingSystem.house.CreateHouse;
+import comRedkoAccountingSystem.house.Storage;
 import comRedkoAccountingSystem.house.model.House;
 import comRedkoAccountingSystem.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class AccountingSystem {
-    private static List<House> houses = new ArrayList<House>();
 
-
-    public static void open() {
+ public static void open() {
         System.out.println("You are welcomed by the apartment accounting system");
 
         while (true) {
@@ -54,14 +49,15 @@ public class AccountingSystem {
         if (number == -1)
             return -1;
 
-        if (getIndexHouse(number) == -1) {
+        if (!Storage.isHouse(number)) {
             System.out.println("There is no house with this number");
             return inputNumberHouse();
         }
         return number;
     }
 
-    private static int inputNumberApartment(House house) {
+    private static int inputNumberApartment(int numOfHouse) {
+        House house = Storage.getHouse(numOfHouse);
         System.out.print("\nWrite a number of apartment in house №" + house.getNumOfHouse() + ": ");
         int numberApartment = Service.inputInt();
 
@@ -70,7 +66,7 @@ public class AccountingSystem {
 
         if (!house.isApartment(numberApartment)) {
             System.out.println("There is no apartment with this number");
-            return inputNumberApartment(house);
+            return inputNumberApartment(numOfHouse);
         }
         return numberApartment;
 
@@ -78,83 +74,64 @@ public class AccountingSystem {
 
     private static void checkHouses() {
         System.out.println("--Check houses--");
-        if (houses.size() == 0)
-            System.out.println("There is no houses");
-        else
-            for (int i = 0; i < houses.size(); ++i) {
-                houses.get(i).getInfo();
-                System.out.println();
-            }
-
-    }
-
-    private static int getIndexHouse(int number) {
-        int index = 0;
-        for (; index < houses.size(); ++index)
-            if (houses.get(index).getNumOfHouse() == number)
-                break;
-        if (index == houses.size())
-            return -1;
-        return index;
+        Storage.getInfo();
     }
 
     private static void compareHouses() {
-        if (houses.isEmpty()) {
+        if (Storage.getNumOfHouses() == 0) {
             System.out.println("There is no houses");
             return;
         }
 
         System.out.print("write -1 to go menu\nHouses: ");
-        for (int i = 0; i < houses.size(); ++i)
-            System.out.print("№" + houses.get(i).getNumOfHouse() + " ");
+        Storage.outputNumOfHouses();
 
         System.out.println();
         System.out.print("First house: ");
-        int num1 = getIndexHouse(inputNumberHouse());
+        int num1 = inputNumberHouse();
         if (num1 == -1)
             return;
 
         System.out.println();
         System.out.print("Second house: ");
-        int num2 = getIndexHouse(inputNumberHouse());
+        int num2 = inputNumberHouse();
         if (num2 == -1)
             return;
 
-        House.compare(houses.get(num1), houses.get(num2));
+        Storage.compareHouses(num1, num2);
 
     }
 
     private static void compareApartments() {
-        if (houses.isEmpty()) {
+        if (Storage.getNumOfHouses() == 0) {
             System.out.println("There is no houses");
             return;
         }
 
         System.out.print("write -1 to go menu\nHouses: ");
-        for (int i = 0; i < houses.size(); ++i)
-            System.out.print("№" + houses.get(i).getNumOfHouse() + " ");
+        Storage.outputNumOfHouses();
 
         System.out.println();
         System.out.print("First house: ");
-        int num1 = getIndexHouse(inputNumberHouse());
+        int num1 = inputNumberHouse();
         if (num1 == -1)
             return;
 
-        int apart1 = inputNumberApartment(houses.get(num1));
+        int apart1 = inputNumberApartment(num1);
         if (apart1 == -1)
             return;
 
         System.out.println();
         System.out.print("Second house: ");
-        int num2 = getIndexHouse(inputNumberHouse());
+        int num2 = inputNumberHouse();
         if (num2 == -1)
             return;
 
-        int apart2 = inputNumberApartment(houses.get(num2));
+        int apart2 = inputNumberApartment(num2);
         if (apart2 == -1)
             return;
 
-        House.compare(houses.get(num1), apart1, houses.get(num2), apart2);
+        Storage.compareApartments(num1, apart1, num2, apart2);
 
     }
 
@@ -168,15 +145,11 @@ public class AccountingSystem {
 
         switch (Service.inputInt()) {
             case 1: {
-                House x = CreateHouse.rand();
-                houses.add(x);
-                x.getInfo();
+                Storage.addHouseRand().getInfo();
             }
             break;
             case 2: {
-                House x = CreateHouse.manual();
-                houses.add(x);
-                x.getInfo();
+                Storage.addHouseManual().getInfo();
             }
             break;
             case -1:
@@ -189,20 +162,18 @@ public class AccountingSystem {
     }
 
     private static void customizeHouse() {
-        if (houses.isEmpty()) {
+        if (Storage.getNumOfHouses()==0) {
             System.out.println("There is no houses");
             return;
         }
 
         System.out.print("write -1 to go menu\nHouses: ");
-        for (int i = 0; i < houses.size(); ++i)
-            System.out.print("№" + houses.get(i).getNumOfHouse() + " ");
+        Storage.outputNumOfHouses();
 
-        int index = inputNumberHouse();
-        if (index == -1)
+        int numOfHouse = inputNumberHouse();
+        if (numOfHouse == -1)
             return;
-        index = getIndexHouse(index);
-        houses.get(index).getAllInfo();
+        Storage.getHouse(numOfHouse).getAllInfo();
 
 
         while (true) {
@@ -211,12 +182,24 @@ public class AccountingSystem {
 
             switch (Service.inputInt()) {
                 case 1: {
-                    int apartment = inputNumberApartment(houses.get(index));
-                    houses.get(index).setPeople(apartment);
+                    int numOfApartment = inputNumberApartment(numOfHouse);
+                    if (numOfApartment == -1)
+                        return;
+                    System.out.println("Input number of people: ");
+                    int numOfPeople = Service.inputInt();
+                    while(numOfPeople < 0 && numOfPeople != -1){
+                        System.out.println("Number of people should be >= 0");
+                        System.out.println("\nNumber of people");
+                        numOfPeople = Service.inputInt();
+                    }
+                    if (numOfPeople == -1)
+                        return;
+
+                    Storage.setPeople(numOfHouse, numOfApartment, numOfPeople);
                 }
                 break;
                 case 2:
-                    houses.remove(index);
+                    Storage.remove(numOfHouse);
                     break;
                 case -1:
                     customizeHouse();

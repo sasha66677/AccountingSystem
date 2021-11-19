@@ -10,7 +10,6 @@ import java.util.List;
 
 public class CreateHouse {
     private static int apartmentID;//to control number of apartment
-    private static final int minNumOfApartment = 100;
     private static int floorID;
 
 
@@ -21,6 +20,9 @@ public class CreateHouse {
     public static House rand(){
         floorID = 1;
         int numOfHouse = Service.getRandInt(1, 50);
+        while (comRedkoAccountingSystem.house.Storage.isHouse(numOfHouse)){
+            numOfHouse = Service.getRandInt(1, 50);
+        }
         int numFloors = Service.getRandInt(1, 5);
         numOfApartments = Service.getRandInt(3, 10);
         areaOfApartment = Service.getRandDouble(50, 100);
@@ -42,7 +44,11 @@ public class CreateHouse {
         floorID = 1;
         System.out.println("Input number of house: ");
         int numOfHouse = Service.inputInt();
-
+        while (comRedkoAccountingSystem.house.Storage.isHouse(numOfHouse)){
+            System.out.println("There is house with this number");
+            System.out.println("\nNumber of house: ");
+            numOfHouse = Service.inputInt();
+        }
         System.out.println("Input number of floors: ");
         int numOfFloors = Service.inputInt();
         while (numOfFloors < 0) {
@@ -96,11 +102,10 @@ public class CreateHouse {
     private static Apartment createApartment(){
         numOfPeople = Service.getRandInt(0, 10);
         return  Apartment.ApartmentBuilder.aFlat().
-                withNumOfApartment(floorID * minNumOfApartment + apartmentID++).
+                withNumOfApartment(floorID * 100 + apartmentID++).
                 withNumOfPeoples(numOfPeople).
                 withArea(areaOfApartment).
                 build();
     }
-
 
 }
