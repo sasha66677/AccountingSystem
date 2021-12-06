@@ -26,7 +26,7 @@ public class House {
     }
 
     public int getNumPeoples() {
-        return HouseService.countPeoples(this);
+        return HouseService.countPeople(this);
     }
 
     public int getNumOfHouse() {

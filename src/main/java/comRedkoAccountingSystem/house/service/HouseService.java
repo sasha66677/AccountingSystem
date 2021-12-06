@@ -15,7 +15,7 @@ public class HouseService {
         return area;
     }
 
-    public static int countPeoples(House house) {
+    public static int countPeople(House house) {
         List<Floor> floors = house.getFloors();
         int peoples = 0;
         for (int i = 0; i < floors.size(); ++i)
