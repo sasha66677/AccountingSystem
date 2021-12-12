@@ -1,13 +1,14 @@
 package comRedkoAccountingSystem.house.model;
 
-import comRedkoAccountingSystem.house.service.*;
-
 import java.util.List;
+import java.util.Objects;
 
 
 public class House {
     private List<Floor> floors;
     private int numOfHouse;
+
+    public House() {}
 
     public void setFloors(List<Floor> floors) {
         this.floors = floors;
@@ -21,44 +22,27 @@ public class House {
         return floors;
     }
 
-    public double getArea() {
-        return HouseService.countAreaHouse(this);
-    }
-
-    public int getNumPeoples() {
-        return HouseService.countPeople(this);
-    }
-
     public int getNumOfHouse() {
         return numOfHouse;
     }
 
-    public int getNumFloors() {
-        return floors.size();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof House)) return false;
+        House house = (House) o;
+        return Objects.equals(floors, house.floors);
     }
 
-    public void getAllInfo() {
-        System.out.println("House №" + numOfHouse);
-        for (int i = 0; i < floors.size(); ++i)
-            floors.get(i).getAllInfo();
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("House №" + numOfHouse + '\n');
+        for (Floor floor : floors)
+            str.append(floor.toString()).append('\n');
+        if (!floors.isEmpty())
+            str.deleteCharAt(str.length() - 1);
+        return str.toString();
     }
-
-    public void getInfo() {
-        System.out.printf("\nHouse №%d\nNumber of floors: %d\nArea: %.2f, Peoples: %d\n",
-                this.getNumOfHouse(), this.getNumFloors(), this.getArea(), this.getNumPeoples());
-    }
-
-
-    public boolean isApartment(int numApartment) {
-        return HouseService.isApartment(this, numApartment);
-    }
-
-
-    public void setPeople(int numOfApartment, int numOfPeople) {
-        HouseService.setPeople(this, numOfApartment, numOfPeople);
-    }
-
-
 
     public static final class HouseBuilder {
         private List<Floor> floors;
@@ -69,6 +53,7 @@ public class House {
         public static HouseBuilder aHouse(){
             return new House.HouseBuilder();
         }
+
         public HouseBuilder withFloors(List<Floor> floors){
             this.floors = floors;
             return this;
@@ -85,6 +70,8 @@ public class House {
             house.setFloors(floors);
             return house;
         }
+
     }
+
 }
 

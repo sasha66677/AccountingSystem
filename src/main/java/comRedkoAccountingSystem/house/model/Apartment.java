@@ -3,22 +3,25 @@ package comRedkoAccountingSystem.house.model;
 public class Apartment {
     private int numOfApartment;
     private double area;
-    private int numOfPeoples;
+    private int numOfPeople;
+
+    public Apartment() {
+    }
 
     public double getArea() {
         return area;
     }
 
-    public int getNumOfPeoples() {
-        return numOfPeoples;
+    public int getNumOfPeople() {
+        return numOfPeople;
     }
 
     public int getNumOfApartment(){
         return numOfApartment;
     }
 
-    public void setNumOfPeoples(int numOfPeoples){
-        this.numOfPeoples = numOfPeoples;
+    public void setNumOfPeople(int numOfPeople){
+        this.numOfPeople = numOfPeople;
     }
 
     public void setNumOfApartment(int numOfApartment) {
@@ -29,8 +32,20 @@ public class Apartment {
         this.area = area;
     }
 
-    public void getAllInfo() {
-        System.out.printf("Apartment %d Area %.2f Peoples %d\n", numOfApartment,area, numOfPeoples);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Apartment apartment = (Apartment) o;
+        return Double.compare(apartment.area, area) == 0 && numOfPeople == apartment.numOfPeople;
+    }
+
+    @Override
+    public String toString() {
+        return "Apartment " +
+                "№" + numOfApartment +
+                ", area=" + area +
+                ", numOfPeople=" + numOfPeople;
     }
 
     public static final class ApartmentBuilder {
@@ -38,8 +53,7 @@ public class Apartment {
         private double area;
         private int numOfPeoples;
 
-        private ApartmentBuilder() {
-        }
+        private ApartmentBuilder() {}
 
         public static ApartmentBuilder aFlat() {
             return new ApartmentBuilder();
@@ -64,7 +78,7 @@ public class Apartment {
             Apartment apartment = new Apartment();
             apartment.setNumOfApartment(numOfApartment);
             apartment.setArea(area);
-            apartment.setNumOfPeoples(numOfPeoples);
+            apartment.setNumOfPeople(numOfPeoples);
             return apartment;
         }
     }

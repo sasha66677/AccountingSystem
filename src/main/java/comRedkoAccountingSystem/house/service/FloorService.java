@@ -6,18 +6,24 @@ import comRedkoAccountingSystem.house.model.Floor;
 import java.util.List;
 
 public class FloorService {
-    public static double countArea(Floor floor){
+
+    public static double getArea(Floor floor){
         List<Apartment> apartments = floor.getApartments();
         double area = 0;
-        for (int i = 0; i < apartments.size(); ++i)
-            area += apartments.get(i).getArea();
+        for (Apartment apartment : apartments) area += apartment.getArea();
         return area;
     }
-    public static int countNumPeoples(Floor floor) {
+
+    public static int getNumPeople(Floor floor) {
         List<Apartment> apartments = floor.getApartments();
-        int numPeoples = 0;
-        for (int i = 0; i < apartments.size(); ++i)
-            numPeoples += apartments.get(i).getNumOfPeoples();
-        return numPeoples;
+        int numPeople = 0;
+        for (Apartment apartment : apartments) numPeople += apartment.getNumOfPeople();
+        return numPeople;
     }
+
+    public static int getNumApartments(Floor floor) {
+        List<Apartment> apartments = floor.getApartments();
+        return apartments.size();
+    }
+
 }

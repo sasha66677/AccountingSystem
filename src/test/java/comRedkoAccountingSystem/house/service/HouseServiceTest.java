@@ -17,9 +17,11 @@ class HouseServiceTest {
     private int numOfPeopleHouse;
     private List<Floor> floors;
     private double areaOfHouse;
-    private final House house = createHouse();
+    private House house = createHouse();
 
     private House createHouse() {
+        areaOfHouse = 0;
+        numOfPeopleHouse = 0;
         int numOfHouse = (int) (Math.random() * 100) + 1;
         int numOfFloors = (int) (Math.random() * 5) + 5;
         int numOfApartments = (int) (Math.random() * 10) + 5;
@@ -64,51 +66,53 @@ class HouseServiceTest {
     }
 
     @Test
-    @DisplayName("test CountArea method")
-    void testCountArea() {
-        assertEquals((int) (areaOfHouse * 1000), (int) (HouseService.countAreaHouse(house) * 1000));
+    @DisplayName("test getArea method")
+    void testGetArea() {
+        assertEquals((int) (areaOfHouse * 1000), (int) (HouseService.getArea(house) * 1000));
     }
 
     @Test
-    @DisplayName("test countPeople method")
-    void testCountPeople() {
-        assertEquals(numOfPeopleHouse, HouseService.countPeople(house));
+    @DisplayName("test getNumOfPeople method")
+    void testGetNumOfPeople() {
+        assertEquals(numOfPeopleHouse, HouseService.getNumOfPeople(house));
     }
 
-    @RepeatedTest(3)
-    @DisplayName("test getIndexApartment method")
-    void testGetIndexApartment() {
+    @Test
+    @DisplayName("test getApartment method")
+    void testGetApartment() {
         List<Apartment> apartments = floors.get(0).getApartments();
         int index = 0;
         int numOfApartment = apartments.get(index).getNumOfApartment();
-        assertEquals(index, HouseService.getIndexApartment(house, numOfApartment));
+        assertEquals(apartments.get(index), HouseService.getApartment(house, numOfApartment));
 
         index = apartments.size() / 2;
         numOfApartment = apartments.get(index).getNumOfApartment();
-        assertEquals(index, HouseService.getIndexApartment(house, numOfApartment));
+        assertEquals(apartments.get(index), HouseService.getApartment(house, numOfApartment));
 
         index = (int) (Math.random() * (apartments.size() - 1));
         numOfApartment = apartments.get(index).getNumOfApartment();
-        assertEquals(index, HouseService.getIndexApartment(house, numOfApartment));
+        assertEquals(apartments.get(index), HouseService.getApartment(house, numOfApartment));
 
         index = apartments.size() - 1;
         numOfApartment = apartments.get(index).getNumOfApartment();
-        assertEquals(index, HouseService.getIndexApartment(house, numOfApartment));
+        assertEquals(apartments.get(index), HouseService.getApartment(house, numOfApartment));
 
         index = 0;
-        numOfApartment = apartments.get(index).getNumOfApartment();
-        assertEquals(-1, HouseService.getIndexApartment(house, numOfApartment - 1), "There is no apartment with №" + (numOfApartment - 1)+ " should return -1");
+        numOfApartment = apartments.get(index).getNumOfApartment() - 1;
+        assertNull(HouseService.getApartment(house, numOfApartment));
 
 
         apartments = floors.get(floors.size() - 1).getApartments();
         numOfApartment = apartments.get(index).getNumOfApartment();
-        assertEquals(index, HouseService.getIndexApartment(house, numOfApartment));
+        assertEquals(apartments.get(index), HouseService.getApartment(house, numOfApartment));
 
         index = apartments.size() - 1;
         numOfApartment = apartments.get(index).getNumOfApartment();
-        assertEquals(index, HouseService.getIndexApartment(house, numOfApartment));
+        assertEquals(apartments.get(index), HouseService.getApartment(house, numOfApartment));
 
-        assertEquals(-1, HouseService.getIndexApartment(house, numOfApartment + 1), "There is no apartment with №" + (numOfApartment + 1)+ " should return -1");
+        numOfApartment += 100;
+        assertNull(HouseService.getApartment(house, numOfApartment));
+
     }
 
     @RepeatedTest(3)
@@ -147,7 +151,7 @@ class HouseServiceTest {
         assertFalse(HouseService.isApartment(house, numOfApartment + 1), "There is no apartment with №" + numOfApartment + " but return true");
     }
 
-    @RepeatedTest(3)
+    @Test
     @DisplayName("test setPeople method")
     void testSetPeople() {
         List<Apartment> apartments = floors.get(0).getApartments();
@@ -155,25 +159,25 @@ class HouseServiceTest {
         int numOfApartment = apartments.get(index).getNumOfApartment();
         int numOfPeople = (int) (Math.random() * 100 + 20);
         HouseService.setPeople(house, numOfApartment, numOfPeople);
-        assertEquals(numOfPeople, apartments.get(index).getNumOfPeoples());
+        assertEquals(numOfPeople, apartments.get(index).getNumOfPeople());
 
         index = apartments.size() / 2;
         numOfApartment = apartments.get(index).getNumOfApartment();
         numOfPeople = (int) (Math.random() * 100 + 20);
         HouseService.setPeople(house, numOfApartment, numOfPeople);
-        assertEquals(numOfPeople, apartments.get(index).getNumOfPeoples());
+        assertEquals(numOfPeople, apartments.get(index).getNumOfPeople());
 
         index = (int) (Math.random() * (apartments.size() - 1));
         numOfApartment = apartments.get(index).getNumOfApartment();
         numOfPeople = (int) (Math.random() * 100 + 20);
         HouseService.setPeople(house, numOfApartment, numOfPeople);
-        assertEquals(numOfPeople, apartments.get(index).getNumOfPeoples());
+        assertEquals(numOfPeople, apartments.get(index).getNumOfPeople());
 
         index = apartments.size() - 1;
         numOfApartment = apartments.get(index).getNumOfApartment();
         numOfPeople = (int) (Math.random() * 100 + 20);
         HouseService.setPeople(house, numOfApartment, numOfPeople);
-        assertEquals(numOfPeople, apartments.get(index).getNumOfPeoples());
+        assertEquals(numOfPeople, apartments.get(index).getNumOfPeople());
 
 
         apartments = floors.get(floors.size() - 1).getApartments();
@@ -181,12 +185,119 @@ class HouseServiceTest {
         numOfApartment = apartments.get(index).getNumOfApartment();
         numOfPeople = (int) (Math.random() * 100 + 20);
         HouseService.setPeople(house, numOfApartment, numOfPeople);
-        assertEquals(numOfPeople, apartments.get(index).getNumOfPeoples());
+        assertEquals(numOfPeople, apartments.get(index).getNumOfPeople());
 
         index = apartments.size() - 1;
         numOfApartment = apartments.get(index).getNumOfApartment();
         numOfPeople = (int) (Math.random() * 100 + 20);
         HouseService.setPeople(house, numOfApartment, numOfPeople);
-        assertEquals(numOfPeople, apartments.get(index).getNumOfPeoples());
+        assertEquals(numOfPeople, apartments.get(index).getNumOfPeople());
     }
+
+    @Test
+    @DisplayName("test getNumOfFloors method")
+    void testGetNumOfFloors() {
+        assertEquals(floors.size(), HouseService.getNumOfFloors(house));
+    }
+
+    @RepeatedTest(3)
+    @DisplayName("test compareArea for house method")
+    void testCompareArea() {
+        House house1 = house;
+        assertEquals(0, HouseService.compareArea(house, house1));
+        double area1 = HouseService.getArea(house1);
+        house = createHouse();
+        assertEquals(Double.compare(areaOfHouse, area1), HouseService.compareArea(house, house1));
+    }
+
+    @RepeatedTest(3)
+    @DisplayName("test compareNumOfPeople for house method")
+    void testCompareNumOfPeople() {
+        House house1 = house;
+        assertEquals(0, HouseService.compareNumOfPeople(house, house1));
+        int numOfPeople1 = HouseService.getNumOfPeople(house1);
+        house = createHouse();
+        assertEquals(Integer.compare(numOfPeopleHouse, numOfPeople1), HouseService.compareNumOfPeople(house, house1));
+    }
+
+    @RepeatedTest(3)
+    @DisplayName("test compareHeight for house method")
+    void testCompareHeight() {
+        House house1 = house;
+        assertEquals(0, HouseService.compareHeight(house, house1));
+        int numOfFloors1 = HouseService.getNumOfFloors(house1);
+        house = createHouse();
+        assertEquals(Integer.compare(floors.size(), numOfFloors1), HouseService.compareHeight(house, house1));
+    }
+
+    @RepeatedTest(3)
+    @DisplayName("test compareArea for apartment method")
+    void testCompareAreaApartment() {
+        var apartments = floors.get(0).getApartments();
+
+        House house1 = house;
+        var floors1 = house1.getFloors();
+        var apartments1 = floors1.get(0).getApartments();
+
+        int num = apartments.get(0).getNumOfApartment();
+        int num1 = apartments1.get(0).getNumOfApartment();
+        assertEquals(0, HouseService.compareArea(house, num, house1, num1));
+
+        num = apartments.get(apartments.size() - 1).getNumOfApartment();
+        num1 = apartments1.get(apartments1.size() - 1).getNumOfApartment();
+        assertEquals(0, HouseService.compareArea(house, num, house1, num1));
+
+        apartments = floors.get(floors.size() - 1).getApartments();
+        apartments1 = house1.getFloors().get(floors1.size() - 1).getApartments();
+        num = apartments.get(apartments.size() - 1).getNumOfApartment();
+        num1 = apartments1.get(apartments1.size() - 1).getNumOfApartment();
+        assertEquals(0, HouseService.compareArea(house, num, house1, num1));
+
+        house = createHouse();
+
+        apartments = floors.get(floors.size() / 2).getApartments();
+        apartments1 = floors1.get(floors1.size() / 2).getApartments();
+
+        double area = apartments.get(apartments.size() / 2).getArea();
+        double area1 = apartments1.get(apartments1.size() / 2).getArea();
+        num = apartments.get(apartments.size() / 2).getNumOfApartment();
+        num1 = apartments1.get(apartments1.size() / 2).getNumOfApartment();
+        assertEquals(Double.compare(area, area1), HouseService.compareArea(house, num, house1, num1));
+    }
+
+    @RepeatedTest(3)
+    @DisplayName("test compareNumOfPeople for apartment method")
+    void testCompareNumOfPeopleApartment() {
+        var apartments = floors.get(0).getApartments();
+
+        House house1 = house;
+        var floors1 = house1.getFloors();
+        var apartments1 = floors1.get(0).getApartments();
+
+        int num = apartments.get(0).getNumOfApartment();
+        int num1 = apartments1.get(0).getNumOfApartment();
+        assertEquals(0, HouseService.compareNumOfPeople(house, num, house1, num1));
+
+        num = apartments.get(apartments.size() - 1).getNumOfApartment();
+        num1 = apartments1.get(apartments1.size() - 1).getNumOfApartment();
+        assertEquals(0, HouseService.compareNumOfPeople(house, num, house1, num1));
+
+        apartments = floors.get(floors.size() - 1).getApartments();
+        apartments1 = house1.getFloors().get(floors1.size() - 1).getApartments();
+        num = apartments.get(apartments.size() - 1).getNumOfApartment();
+        num1 = apartments1.get(apartments1.size() - 1).getNumOfApartment();
+        assertEquals(0, HouseService.compareNumOfPeople(house, num, house1, num1));
+
+        house = createHouse();
+
+        apartments = floors.get(floors.size() / 2).getApartments();
+        apartments1 = floors1.get(floors1.size() / 2).getApartments();
+
+        int numOfPeople = apartments.get(apartments.size() / 2).getNumOfPeople();
+        int numOfPeople1 = apartments1.get(apartments1.size() / 2).getNumOfPeople();
+        num = apartments.get(apartments.size() / 2).getNumOfApartment();
+        num1 = apartments1.get(apartments1.size() / 2).getNumOfApartment();
+        assertEquals(Double.compare(numOfPeople, numOfPeople1), HouseService.compareNumOfPeople(house, num, house1, num1));
+    }
+
 }

@@ -1,49 +1,46 @@
 package comRedkoAccountingSystem.house.model;
 
-import comRedkoAccountingSystem.house.service.*;
-
 import java.util.List;
+import java.util.Objects;
 
 public class Floor {
     private int numOfFloor;
     private List<Apartment> apartments;
 
+    public Floor(){}
+
     public void setApartments(List<Apartment> apartments) {
         this.apartments = apartments;
     }
+
     public void setNumOfFloor(int numOfFloor) {
         this.numOfFloor = numOfFloor;
     }
+
     public List<Apartment> getApartments() {
         return apartments;
-    }
-
-    public double getArea() {
-        return FloorService.countArea(this);
-    }
-
-    public int getNumPeoples() {
-        return FloorService.countNumPeoples(this);
-    }
-
-    public int getNumApartments() {
-        return apartments.size();
     }
 
     public int getNumOfFloor() {
         return numOfFloor;
     }
 
-    public void getAllInfo() {
-        System.out.println("Floor " + numOfFloor);
-        for (int i = 0; i < apartments.size(); ++i)
-            apartments.get(i).getAllInfo();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Floor)) return false;
+        Floor floor = (Floor) o;
+        return Objects.equals(apartments, floor.apartments);
     }
 
-    public void setPeoplesApartment(int indexApartment, int numPeoples) {
-        if (indexApartment >= apartments.size() || indexApartment < 0)
-            return;
-        apartments.get(indexApartment).setNumOfPeoples(numPeoples);
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("Floor №" + numOfFloor + '\n');
+        for (Apartment apartment : apartments)
+            str.append(apartment.toString()).append('\n');
+        if (!apartments.isEmpty())
+            str.deleteCharAt(str.length() - 1);
+        return str.toString();
     }
 
     public static final class FloorBuilder {
@@ -51,9 +48,11 @@ public class Floor {
         private List<Apartment> apartments;
 
         private FloorBuilder(){}
+
         public static FloorBuilder aFloor(){
             return new FloorBuilder();
         }
+
         public FloorBuilder withNumOfFloor(int numOfFloor){
             this.numOfFloor = numOfFloor;
             return this;
@@ -70,5 +69,7 @@ public class Floor {
             floor.setNumOfFloor(numOfFloor);
             return floor;
         }
+
     }
+
 }

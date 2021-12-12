@@ -17,12 +17,14 @@ class FloorServiceTest {
     private double areaOfApartment;
     private int numOfPeopleFloor;
     private final Floor floor = createFloor();
+    private List<Apartment> apartments;
 
     private Floor createFloor() {
+        numOfPeopleFloor = 0;
         numOfApartments = (int) (Math.random() * 10) + 2;
         int numOfFloor = (int) (Math.random() * 10) + 2;
         areaOfApartment = (Math.random() * 100) + 20;
-        List<Apartment> apartments = new ArrayList<>(numOfApartments);
+        apartments = new ArrayList<>(numOfApartments);
         int apartmentID = 1;
         for (int i = 0; i < numOfApartments; ++i) {
             Apartment apartment = createApartment(numOfFloor, apartmentID++);
@@ -45,14 +47,21 @@ class FloorServiceTest {
     }
 
     @Test
-    @DisplayName("test countArea method")
-    void testCountArea() {
-        assertEquals((int) (areaOfApartment * numOfApartments * 1000), (int) (FloorService.countArea(floor) * 1000));
+    @DisplayName("test getArea method")
+    void testGetArea() {
+        assertEquals((int) (areaOfApartment * numOfApartments * 1000), (int) (FloorService.getArea(floor) * 1000));
     }
 
     @Test
-    @DisplayName("test countNumPeople method")
-    void testCountNumPeople() {
-        assertEquals(numOfPeopleFloor, FloorService.countNumPeoples(floor));
+    @DisplayName("test getNumPeople method")
+    void testGetNumPeople() {
+        assertEquals(numOfPeopleFloor, FloorService.getNumPeople(floor));
     }
+
+    @Test
+    @DisplayName("test getNumApartments method")
+    void testGetNumApartments() {
+        assertEquals(apartments.size(), FloorService.getNumApartments(floor));
+    }
+
 }
