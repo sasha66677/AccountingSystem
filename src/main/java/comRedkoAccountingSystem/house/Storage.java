@@ -1,7 +1,7 @@
 package comRedkoAccountingSystem.house;
 
-import comRedkoAccountingSystem.house.model.House;
-import comRedkoAccountingSystem.house.service.HouseService;
+import comRedkoAccountingSystem.house.models.House;
+import comRedkoAccountingSystem.house.services.HouseService;
 
 import java.util.*;
 
@@ -11,7 +11,6 @@ public class Storage {
     public Storage() {
         houses = new HashMap<>();
     }
-
 
     public void setHouses(Map<Integer, House> houses) {
         this.houses = houses;

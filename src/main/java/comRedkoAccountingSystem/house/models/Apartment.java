@@ -1,4 +1,4 @@
-package comRedkoAccountingSystem.house.model;
+package comRedkoAccountingSystem.house.models;
 
 public class Apartment {
     private int numOfApartment;
@@ -51,7 +51,7 @@ public class Apartment {
     public static final class ApartmentBuilder {
         private int numOfApartment;
         private double area;
-        private int numOfPeoples;
+        private int numOfPeople;
 
         private ApartmentBuilder() {}
 
@@ -69,8 +69,8 @@ public class Apartment {
             return this;
         }
 
-        public ApartmentBuilder withNumOfPeoples(int numberOfPeoples) {
-            this.numOfPeoples = numberOfPeoples;
+        public ApartmentBuilder withNumOfPeople(int numberOfPeople) {
+            this.numOfPeople = numberOfPeople;
             return this;
         }
 
@@ -78,7 +78,7 @@ public class Apartment {
             Apartment apartment = new Apartment();
             apartment.setNumOfApartment(numOfApartment);
             apartment.setArea(area);
-            apartment.setNumOfPeople(numOfPeoples);
+            apartment.setNumOfPeople(numOfPeople);
             return apartment;
         }
     }

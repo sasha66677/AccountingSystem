@@ -1,8 +1,8 @@
-package comRedkoAccountingSystem.house.service;
+package comRedkoAccountingSystem.house.services;
 
-import comRedkoAccountingSystem.house.model.Apartment;
-import comRedkoAccountingSystem.house.model.Floor;
-import comRedkoAccountingSystem.house.model.House;
+import comRedkoAccountingSystem.house.models.Apartment;
+import comRedkoAccountingSystem.house.models.Floor;
+import comRedkoAccountingSystem.house.models.House;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -60,7 +60,7 @@ class HouseServiceTest {
         areaOfHouse += areaOfApartment;
         return Apartment.ApartmentBuilder.aFlat().
                 withNumOfApartment(floorID * 100 + apartmentID).
-                withNumOfPeoples(people).
+                withNumOfPeople(people).
                 withArea(areaOfApartment).
                 build();
     }

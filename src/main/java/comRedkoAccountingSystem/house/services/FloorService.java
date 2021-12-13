@@ -1,7 +1,7 @@
-package comRedkoAccountingSystem.house.service;
+package comRedkoAccountingSystem.house.services;
 
-import comRedkoAccountingSystem.house.model.Apartment;
-import comRedkoAccountingSystem.house.model.Floor;
+import comRedkoAccountingSystem.house.models.Apartment;
+import comRedkoAccountingSystem.house.models.Floor;
 
 import java.util.List;
 
