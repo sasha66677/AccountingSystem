@@ -1,4 +1,4 @@
-package comRedkoAccountingSystem.house.dao;
+package com.Redko.AccountingSystem.dao;
 
 public interface Dao <T, H> {
 

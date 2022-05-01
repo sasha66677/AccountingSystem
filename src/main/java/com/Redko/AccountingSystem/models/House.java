@@ -1,4 +1,4 @@
-package comRedkoAccountingSystem.house.models;
+package com.Redko.AccountingSystem.models;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,8 +30,7 @@ public class House {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof House)) return false;
-        House house = (House) o;
-        return Objects.equals(floors, house.floors);
+        return numOfHouse == ((House) o).numOfHouse;
     }
 
     @Override

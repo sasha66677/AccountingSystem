@@ -1,7 +1,7 @@
-package comRedkoAccountingSystem.house;
+package com.Redko.AccountingSystem;
 
-import comRedkoAccountingSystem.house.models.House;
-import comRedkoAccountingSystem.house.services.HouseService;
+import com.Redko.AccountingSystem.models.House;
+import com.Redko.AccountingSystem.services.HouseService;
 
 import java.util.*;
 
@@ -21,8 +21,9 @@ public class Storage {
     }
 
     public void addHouse(House house) {
-        if (!isHouse(house.getNumOfHouse()))
+        if (!isHouse(house.getNumOfHouse())){
             houses.put(house.getNumOfHouse(), house);
+        }
     }
 
     public House getHouse(int numOfHouse){
@@ -38,8 +39,9 @@ public class Storage {
     }
 
     public void setPeople(int numOfHouse, int numOfApartment, int numOfPeople) {
-        if (houses.containsKey(numOfHouse))
+        if (houses.containsKey(numOfHouse)){
             HouseService.setPeople(houses.get(numOfHouse), numOfApartment, numOfPeople);
+        }
     }
 
     public void remove(int numOfHouse){

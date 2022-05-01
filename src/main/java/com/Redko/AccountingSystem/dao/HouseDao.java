@@ -1,8 +1,8 @@
-package comRedkoAccountingSystem.house.dao;
+package com.Redko.AccountingSystem.dao;
 
-import comRedkoAccountingSystem.house.models.Apartment;
-import comRedkoAccountingSystem.house.models.Floor;
-import comRedkoAccountingSystem.house.models.House;
+import com.Redko.AccountingSystem.models.Apartment;
+import com.Redko.AccountingSystem.models.Floor;
+import com.Redko.AccountingSystem.models.House;
 
 import java.io.*;
 import java.util.ArrayList;

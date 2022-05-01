@@ -1,4 +1,4 @@
-package comRedkoAccountingSystem.house.models;
+package com.Redko.AccountingSystem.models;
 
 import java.util.List;
 import java.util.Objects;

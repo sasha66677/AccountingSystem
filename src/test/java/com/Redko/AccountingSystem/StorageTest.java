@@ -1,9 +1,9 @@
-package comRedkoAccountingSystem.house;
+package com.Redko.AccountingSystem;
 
-import comRedkoAccountingSystem.house.models.Apartment;
-import comRedkoAccountingSystem.house.models.Floor;
-import comRedkoAccountingSystem.house.models.House;
-import comRedkoAccountingSystem.house.services.HouseService;
+import com.Redko.AccountingSystem.models.Apartment;
+import com.Redko.AccountingSystem.models.Floor;
+import com.Redko.AccountingSystem.models.House;
+import com.Redko.AccountingSystem.services.HouseService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
@@ -34,64 +34,16 @@ class StorageTest {
         }
     }
 
-    private static House createHouse() {
-        List<Floor> floors;
-        int numOfHouse = (int) (Math.random() * 1000) + 1;
-        int numOfFloors = (int) (Math.random() * 5) + 5;
-        int numOfApartments = (int) (Math.random() * 10) + 5;
-        double areaOfApartment = Math.random() * 100 + 50;
-
-        floors = new ArrayList<>();
-
-        for (int i = 1; i <= numOfFloors; ++i) {
-            Floor floor = createFloor(i, areaOfApartment, numOfApartments);
-            floors.add(i - 1, floor);
-        }
-
-        return House.HouseBuilder.aHouse().
-                withNumOfHouse(numOfHouse).
-                withFloors(floors).
-                build();
-    }
-
-    private static Floor createFloor(int numFloor, double areaOfApartment, int numOfApartments) {
-        List<Apartment> apartments = new ArrayList<>(numOfApartments);
-        int apartmentID = 1;
-        for (int i = 0; i < numOfApartments; ++i) {
-            Apartment apartment = createApartment(numFloor, apartmentID++, areaOfApartment);
-            apartments.add(i, apartment);
-        }
-        return Floor.FloorBuilder.aFloor().
-                withNumOfFloor(numFloor).
-                withApartments(apartments).
-                build();
-    }
-
-    private static Apartment createApartment(int floorID, int apartmentID, double areaOfApartment) {
-        int people = (int) (Math.random() * 5 + 5);
-        return Apartment.ApartmentBuilder.aFlat().
-                withNumOfApartment(floorID * 100 + apartmentID).
-                withNumOfPeople(people).
-                withArea(areaOfApartment).
-                build();
-    }
-
-    @RepeatedTest(3)
+   @RepeatedTest(3)
     @DisplayName("test addHouse method")
     void testAddHouse() {
         House house = createHouse();
-        while (houses.containsKey(house.getNumOfHouse()))
-            house = createHouse();
         storage.addHouse(house);
         houses = storage.getHouses();
         assertTrue(houses.containsKey(house.getNumOfHouse()) && houses.containsValue(house));
 
-        int number = house.getNumOfHouse();
-        House house1 = createHouse();
-        house1.setNumOfHouse(number);
-        storage.addHouse(house1);
-        houses = storage.getHouses();
-        assertFalse(houses.containsValue(house1));
+        house = createHouse();
+        assertFalse(houses.containsValue(house));
     }
 
     @Test
@@ -117,12 +69,14 @@ class StorageTest {
     @DisplayName("test isHouse method")
     void testIsHouse() {
         int numOfHouse = (int) (Math.random() * 1000) + 1;
-        while (houses.containsKey(numOfHouse))
+        while (houses.containsKey(numOfHouse)) {
             numOfHouse = (int) (Math.random() * 1000) + 1;
+        }
         assertFalse(storage.isHouse(numOfHouse));
 
-        for (Map.Entry<Integer, House> item : houses.entrySet())
+        for (Map.Entry<Integer, House> item : houses.entrySet()) {
             assertTrue(storage.isHouse(item.getKey()));
+        }
     }
 
     @RepeatedTest(2)
@@ -257,6 +211,48 @@ class StorageTest {
                 assertEquals(Double.compare(numOfPeople, numOfPeople1), storage.compareNumOfPeople(numOfHouse, numOfApartment, numOfHouse1, numOfApartment1));
             }
         }
+    }
+
+    private static House createHouse() {
+        List<Floor> floors;
+        int numOfHouse = (int) (Math.random() * 1000) + 1;
+        int numOfFloors = (int) (Math.random() * 5) + 5;
+        int numOfApartments = (int) (Math.random() * 10) + 5;
+        double areaOfApartment = Math.random() * 100 + 50;
+
+        floors = new ArrayList<>();
+
+        for (int i = 1; i <= numOfFloors; ++i) {
+            Floor floor = createFloor(i, areaOfApartment, numOfApartments);
+            floors.add(i - 1, floor);
+        }
+
+        return House.HouseBuilder.aHouse().
+                withNumOfHouse(numOfHouse).
+                withFloors(floors).
+                build();
+    }
+
+    private static Floor createFloor(int numFloor, double areaOfApartment, int numOfApartments) {
+        List<Apartment> apartments = new ArrayList<>(numOfApartments);
+        int apartmentID = 1;
+        for (int i = 0; i < numOfApartments; ++i) {
+            Apartment apartment = createApartment(numFloor, apartmentID++, areaOfApartment);
+            apartments.add(i, apartment);
+        }
+        return Floor.FloorBuilder.aFloor().
+                withNumOfFloor(numFloor).
+                withApartments(apartments).
+                build();
+    }
+
+    private static Apartment createApartment(int floorID, int apartmentID, double areaOfApartment) {
+        int people = (int) (Math.random() * 5 + 5);
+        return Apartment.ApartmentBuilder.aFlat().
+                withNumOfApartment(floorID * 100 + apartmentID).
+                withNumOfPeople(people).
+                withArea(areaOfApartment).
+                build();
     }
 
 }

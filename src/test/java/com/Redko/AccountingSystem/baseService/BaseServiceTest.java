@@ -1,9 +1,9 @@
-package comRedkoAccountingSystem.house.baseService;
+package com.Redko.AccountingSystem.baseService;
 
-import comRedkoAccountingSystem.house.Storage;
-import comRedkoAccountingSystem.house.models.Apartment;
-import comRedkoAccountingSystem.house.models.Floor;
-import comRedkoAccountingSystem.house.models.House;
+import com.Redko.AccountingSystem.models.Apartment;
+import com.Redko.AccountingSystem.models.House;
+import com.Redko.AccountingSystem.Storage;
+import com.Redko.AccountingSystem.models.Floor;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
@@ -35,49 +35,6 @@ class BaseServiceTest {
         }
 
     }
-
-    private static House createHouse() {
-        List<Floor> floors;
-        int numOfHouse = (int) (Math.random() * 10000) + 1;
-        int numOfFloors = (int) (Math.random() * 5) + 5;
-        int numOfApartments = (int) (Math.random() * 10) + 5;
-        double areaOfApartment = Math.random() * 100 + 50;
-
-        floors = new ArrayList<>();
-
-        for (int i = 1; i <= numOfFloors; ++i) {
-            Floor floor = createFloor(i, areaOfApartment, numOfApartments);
-            floors.add(i - 1, floor);
-        }
-
-        return House.HouseBuilder.aHouse().
-                withNumOfHouse(numOfHouse).
-                withFloors(floors).
-                build();
-    }
-
-    private static Floor createFloor(int numFloor, double areaOfApartment, int numOfApartments) {
-        List<Apartment> apartments = new ArrayList<>(numOfApartments);
-        int apartmentID = 1;
-        for (int i = 0; i < numOfApartments; ++i) {
-            Apartment apartment = createApartment(numFloor, apartmentID++, areaOfApartment);
-            apartments.add(i, apartment);
-        }
-        return Floor.FloorBuilder.aFloor().
-                withNumOfFloor(numFloor).
-                withApartments(apartments).
-                build();
-    }
-
-    private static Apartment createApartment(int floorID, int apartmentID, double areaOfApartment) {
-        int people = (int) (Math.random() * 5 + 5);
-        return Apartment.ApartmentBuilder.aFlat().
-                withNumOfApartment(floorID * 100 + apartmentID).
-                withNumOfPeople(people).
-                withArea(areaOfApartment).
-                build();
-    }
-
 
     @Test
     @DisplayName("test save method")
@@ -140,6 +97,48 @@ class BaseServiceTest {
         storage = base.findAll();
         houses = storage.getHouses();
         assertTrue(houses.containsKey(house.getNumOfHouse()));
+    }
+
+    private static House createHouse() {
+        List<Floor> floors;
+        int numOfHouse = (int) (Math.random() * 10000) + 1;
+        int numOfFloors = (int) (Math.random() * 5) + 5;
+        int numOfApartments = (int) (Math.random() * 10) + 5;
+        double areaOfApartment = Math.random() * 100 + 50;
+
+        floors = new ArrayList<>();
+
+        for (int i = 1; i <= numOfFloors; ++i) {
+            Floor floor = createFloor(i, areaOfApartment, numOfApartments);
+            floors.add(i - 1, floor);
+        }
+
+        return House.HouseBuilder.aHouse().
+                withNumOfHouse(numOfHouse).
+                withFloors(floors).
+                build();
+    }
+
+    private static Floor createFloor(int numFloor, double areaOfApartment, int numOfApartments) {
+        List<Apartment> apartments = new ArrayList<>(numOfApartments);
+        int apartmentID = 1;
+        for (int i = 0; i < numOfApartments; ++i) {
+            Apartment apartment = createApartment(numFloor, apartmentID++, areaOfApartment);
+            apartments.add(i, apartment);
+        }
+        return Floor.FloorBuilder.aFloor().
+                withNumOfFloor(numFloor).
+                withApartments(apartments).
+                build();
+    }
+
+    private static Apartment createApartment(int floorID, int apartmentID, double areaOfApartment) {
+        int people = (int) (Math.random() * 5 + 5);
+        return Apartment.ApartmentBuilder.aFlat().
+                withNumOfApartment(floorID * 100 + apartmentID).
+                withNumOfPeople(people).
+                withArea(areaOfApartment).
+                build();
     }
 
 }

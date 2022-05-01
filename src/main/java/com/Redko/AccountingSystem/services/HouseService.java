@@ -1,46 +1,41 @@
-package comRedkoAccountingSystem.house.services;
+package com.Redko.AccountingSystem.services;
 
-import comRedkoAccountingSystem.house.models.Apartment;
-import comRedkoAccountingSystem.house.models.Floor;
-import comRedkoAccountingSystem.house.models.House;
+import com.Redko.AccountingSystem.models.Apartment;
+import com.Redko.AccountingSystem.models.House;
+import com.Redko.AccountingSystem.models.Floor;
 
 import java.util.List;
 
 public class HouseService {
     public static double getArea(House house) {
         List<Floor> floors = house.getFloors();
-        double area = 0;
-        for (Floor floor : floors) area += FloorService.getArea(floor);
-        return area;
+        return floors.stream().
+                mapToDouble(FloorService::getArea).
+                sum();
     }
 
     public static int getNumOfPeople(House house) {
         List<Floor> floors = house.getFloors();
-        int peoples = 0;
-        for (Floor floor : floors) peoples += FloorService.getNumPeople(floor);
-        return peoples;
+        return floors.stream().
+                mapToInt(FloorService::getNumPeople).
+                sum();
     }
 
     public static boolean isApartment(House house, int numOfApartment) {
         List<Floor> floors = house.getFloors();
-        for (Floor item : floors) {
-            List<Apartment> apartments = item.getApartments();
-            for (Apartment apartment : apartments)
-                if (apartment.getNumOfApartment() == numOfApartment)
-                    return true;
-        }
-        return false;
+        return floors.stream().
+                anyMatch(floor -> FloorService.isApartment(floor, numOfApartment));
     }
 
     public static Apartment getApartment(House house, int numOfApartment) {
         List<Floor> floors = house.getFloors();
+        Apartment apartment = null;
         for (Floor item : floors) {
-            List<Apartment> apartments = item.getApartments();
-            for (Apartment apartment : apartments)
-                if (apartment.getNumOfApartment() == numOfApartment)
-                    return apartment;
+            apartment = FloorService.getApartment(item, numOfApartment);
+            if (apartment != null)
+                break;
         }
-        return null;
+        return apartment;
     }
 
     public static void setPeople(House house, int numOfApartment, int numOfPeople) {
@@ -76,10 +71,12 @@ public class HouseService {
         Apartment apartment1 = getApartment(house1, numOfApartment1);
         Apartment apartment2 = getApartment(house2, numOfApartment2);
         if(apartment1 == null || apartment2 == null) {
-            if (apartment1 == null && apartment2 == null)
+            if (apartment1 == null && apartment2 == null){
                 return 0;
-            if (apartment1 != null)
+            }
+            if (apartment1 != null){
                 return 1;
+            }
             return -1;
         }
 
@@ -92,10 +89,12 @@ public class HouseService {
         Apartment apartment1 = getApartment(house1, numOfApartment1);
         Apartment apartment2 = getApartment(house2, numOfApartment2);
         if(apartment1 == null || apartment2 == null) {
-            if (apartment1 == null && apartment2 == null)
+            if (apartment1 == null && apartment2 == null){
                 return 0;
-            if (apartment1 != null)
+            }
+            if (apartment1 != null){
                 return 1;
+            }
             return -1;
         }
 

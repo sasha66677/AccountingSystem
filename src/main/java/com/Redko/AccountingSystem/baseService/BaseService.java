@@ -1,11 +1,9 @@
-package comRedkoAccountingSystem.house.baseService;
+package com.Redko.AccountingSystem.baseService;
 
-import comRedkoAccountingSystem.house.Storage;
-import comRedkoAccountingSystem.house.dao.HouseDao;
-import comRedkoAccountingSystem.house.dao.StorageDao;
-import comRedkoAccountingSystem.house.models.House;
-
-import java.util.Map;
+import com.Redko.AccountingSystem.dao.HouseDao;
+import com.Redko.AccountingSystem.Storage;
+import com.Redko.AccountingSystem.dao.StorageDao;
+import com.Redko.AccountingSystem.models.House;
 
 public class BaseService {
     private final StorageDao dao;
@@ -23,7 +21,6 @@ public class BaseService {
             }
         return baseService;
     }
-
 
     void save(House house) {
         dao.save(house);
