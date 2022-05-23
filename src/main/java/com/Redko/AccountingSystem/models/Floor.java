@@ -30,7 +30,7 @@ public class Floor {
         if (this == o) return true;
         if (!(o instanceof Floor)) return false;
         Floor floor = (Floor) o;
-        return Objects.equals(apartments, floor.apartments);
+        return numOfFloor == floor.numOfFloor;
     }
 
     @Override

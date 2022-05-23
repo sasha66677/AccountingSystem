@@ -40,7 +40,7 @@ public class Apartment {
         if (this == o) return true;
         if (!(o instanceof Apartment)) return false;
         Apartment apartment = (Apartment) o;
-        return numOfApartment == apartment.numOfApartment && Double.compare(apartment.area, area) == 0 && numOfPeople == apartment.numOfPeople;
+        return numOfApartment == apartment.numOfApartment;
     }
 
     @Override

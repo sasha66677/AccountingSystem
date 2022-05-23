@@ -32,6 +32,7 @@ class StorageTest {
 
             houses.put(house.getNumOfHouse(), house);
         }
+        storage.setHouses(houses);
     }
 
    @RepeatedTest(3)

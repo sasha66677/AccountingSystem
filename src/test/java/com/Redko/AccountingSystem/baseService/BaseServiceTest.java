@@ -4,13 +4,10 @@ import com.Redko.AccountingSystem.models.Apartment;
 import com.Redko.AccountingSystem.models.House;
 import com.Redko.AccountingSystem.Storage;
 import com.Redko.AccountingSystem.models.Floor;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
+import com.Redko.AccountingSystem.services.HouseService;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,17 +20,13 @@ class BaseServiceTest {
     @BeforeAll
     private static void setUp() {
         storage = new Storage();
-        Map<Integer, House> houses;
-        int numOfHouses = (int) (Math.random() * 10) + 3;
-        houses = storage.getHouses();
+        var houses= storage.getHouses();
+        int numOfHouses = (int) (Math.random() * 10) + 20;
         for (int i = 0; i < numOfHouses; ++i) {
             House house = createHouse();
-            while (houses.containsKey(house.getNumOfHouse()))
-                house = createHouse();
-
             houses.put(house.getNumOfHouse(), house);
         }
-
+        storage.setHouses(houses);
     }
 
     @Test
@@ -48,25 +41,23 @@ class BaseServiceTest {
     @Test
     @DisplayName("test update method")
     void update() {
-
-        var houses = storage.getHouses();
         BaseService base = BaseService.getBaseService();
-        Map<Integer, House> houses1 = new HashMap<>();
-        for (Map.Entry<Integer, House> item : houses.entrySet()) {
-            int numOfHouse = item.getKey();
-            var house = createHouse();
-            house.setNumOfHouse(numOfHouse);
-            houses1.put(numOfHouse, house);
-            base.update(house);
-        }
+        var house = createHouse();
+        var house1 = createHouse();
 
-        storage = base.findAll();
-        houses = storage.getHouses();
-        for (Map.Entry<Integer, House> item : houses1.entrySet())
-            assertTrue(houses.containsKey(item.getKey()));
+        base.save(house);
+        house1.setNumOfHouse(house.getNumOfHouse());
+        base.update(house1);
+
+        var houseInBase = base.findById(house1.getNumOfHouse());
+        assertEquals(house1.getNumOfHouse(), houseInBase.getNumOfHouse());
+        assertEquals(0, HouseService.compareArea(house1, houseInBase));
+        assertEquals(0, HouseService.compareHeight(house1, houseInBase));
+        assertEquals(0, HouseService.compareNumOfPeople(house1, houseInBase));
+
     }
 
-    @RepeatedTest(3)
+    @Test
     @DisplayName("test delete method")
     void delete() {
         BaseService base = BaseService.getBaseService();
@@ -78,9 +69,8 @@ class BaseServiceTest {
 
         base.save(house);
         base.delete(house);
-        storage = base.findAll();
-        houses = storage.getHouses();
-        assertFalse(houses.containsKey(house.getNumOfHouse()));
+        house = base.findById(house.getNumOfHouse());
+        assertNull(house);
     }
 
     @Test
@@ -88,20 +78,24 @@ class BaseServiceTest {
     void findById() {
         BaseService base = BaseService.getBaseService();
 
-        var houses = storage.getHouses();
         var house = createHouse();
-        while (houses.containsKey(house.getNumOfHouse()))
-            house = createHouse();
-
         base.save(house);
-        storage = base.findAll();
-        houses = storage.getHouses();
-        assertTrue(houses.containsKey(house.getNumOfHouse()));
+
+        var houseInBase = base.findById(house.getNumOfHouse());
+        assertEquals(house.getNumOfHouse(), houseInBase.getNumOfHouse());
+        assertEquals(0, HouseService.compareArea(house, houseInBase));
+        assertEquals(0, HouseService.compareHeight(house, houseInBase));
+        assertEquals(0, HouseService.compareNumOfPeople(house, houseInBase));
+
     }
 
     private static House createHouse() {
         List<Floor> floors;
         int numOfHouse = (int) (Math.random() * 10000) + 1;
+        Map<Integer, House> houses= storage.getHouses();
+        while(houses.containsKey(numOfHouse))
+            numOfHouse = (int) (Math.random() * 10000) + 1;
+
         int numOfFloors = (int) (Math.random() * 5) + 5;
         int numOfApartments = (int) (Math.random() * 10) + 5;
         double areaOfApartment = Math.random() * 100 + 50;
