@@ -1,4 +1,4 @@
-package comRedkoAccountingSystem.house.models;
+package com.Redko.AccountingSystem.models;
 
 import java.util.List;
 import java.util.Objects;
@@ -7,7 +7,8 @@ public class Floor {
     private int numOfFloor;
     private List<Apartment> apartments;
 
-    public Floor(){}
+    public Floor() {
+    }
 
     public void setApartments(List<Apartment> apartments) {
         this.apartments = apartments;
@@ -30,7 +31,7 @@ public class Floor {
         if (this == o) return true;
         if (!(o instanceof Floor)) return false;
         Floor floor = (Floor) o;
-        return Objects.equals(apartments, floor.apartments);
+        return numOfFloor == floor.numOfFloor;
     }
 
     @Override
@@ -47,23 +48,24 @@ public class Floor {
         private int numOfFloor;
         private List<Apartment> apartments;
 
-        private FloorBuilder(){}
+        private FloorBuilder() {
+        }
 
-        public static FloorBuilder aFloor(){
+        public static FloorBuilder aFloor() {
             return new FloorBuilder();
         }
 
-        public FloorBuilder withNumOfFloor(int numOfFloor){
+        public FloorBuilder withNumOfFloor(int numOfFloor) {
             this.numOfFloor = numOfFloor;
             return this;
         }
 
-        public FloorBuilder withApartments(List<Apartment> apartments){
+        public FloorBuilder withApartments(List<Apartment> apartments) {
             this.apartments = apartments;
             return this;
         }
 
-        public Floor build(){
+        public Floor build() {
             Floor floor = new Floor();
             floor.setApartments(apartments);
             floor.setNumOfFloor(numOfFloor);

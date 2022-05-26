@@ -1,9 +1,7 @@
-package comRedkoAccountingSystem.house.dao;
+package com.Redko.AccountingSystem.dao;
 
-import comRedkoAccountingSystem.house.Storage;
-import comRedkoAccountingSystem.house.models.House;
-
-import java.io.File;
+import com.Redko.AccountingSystem.models.House;
+import com.Redko.AccountingSystem.Storage;
 
 
 public class StorageDao implements Dao<House, Storage> {

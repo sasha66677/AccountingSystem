@@ -1,4 +1,6 @@
-package comRedkoAccountingSystem.house.models;
+package com.Redko.AccountingSystem.models;
+
+import java.util.Objects;
 
 public class Apartment {
     private int numOfApartment;
@@ -16,11 +18,11 @@ public class Apartment {
         return numOfPeople;
     }
 
-    public int getNumOfApartment(){
+    public int getNumOfApartment() {
         return numOfApartment;
     }
 
-    public void setNumOfPeople(int numOfPeople){
+    public void setNumOfPeople(int numOfPeople) {
         this.numOfPeople = numOfPeople;
     }
 
@@ -32,12 +34,18 @@ public class Apartment {
         this.area = area;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null) return false;
+        if (!(o instanceof Apartment)) return false;
         Apartment apartment = (Apartment) o;
-        return Double.compare(apartment.area, area) == 0 && numOfPeople == apartment.numOfPeople;
+        return numOfApartment == apartment.numOfApartment;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numOfApartment, area, numOfPeople);
     }
 
     @Override
@@ -53,13 +61,14 @@ public class Apartment {
         private double area;
         private int numOfPeople;
 
-        private ApartmentBuilder() {}
+        private ApartmentBuilder() {
+        }
 
         public static ApartmentBuilder aFlat() {
             return new ApartmentBuilder();
         }
 
-        public ApartmentBuilder withNumOfApartment(int numOfApartment){
+        public ApartmentBuilder withNumOfApartment(int numOfApartment) {
             this.numOfApartment = numOfApartment;
             return this;
         }

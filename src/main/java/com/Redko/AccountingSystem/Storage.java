@@ -1,7 +1,7 @@
-package comRedkoAccountingSystem.house;
+package com.Redko.AccountingSystem;
 
-import comRedkoAccountingSystem.house.models.House;
-import comRedkoAccountingSystem.house.services.HouseService;
+import com.Redko.AccountingSystem.models.House;
+import com.Redko.AccountingSystem.services.HouseService;
 
 import java.util.*;
 
@@ -21,15 +21,16 @@ public class Storage {
     }
 
     public void addHouse(House house) {
-        if (!isHouse(house.getNumOfHouse()))
+        if (!isHouse(house.getNumOfHouse())) {
             houses.put(house.getNumOfHouse(), house);
+        }
     }
 
-    public House getHouse(int numOfHouse){
+    public House getHouse(int numOfHouse) {
         return houses.get(numOfHouse);
     }
 
-    public int getNumOfHouses(){
+    public int getNumOfHouses() {
         return houses.size();
     }
 
@@ -38,46 +39,47 @@ public class Storage {
     }
 
     public void setPeople(int numOfHouse, int numOfApartment, int numOfPeople) {
-        if (houses.containsKey(numOfHouse))
+        if (houses.containsKey(numOfHouse)) {
             HouseService.setPeople(houses.get(numOfHouse), numOfApartment, numOfPeople);
+        }
     }
 
-    public void remove(int numOfHouse){
+    public void remove(int numOfHouse) {
         houses.remove(numOfHouse);
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return houses.isEmpty();
     }
 
     public int compareArea(int numOfHouse1, int numOfHouse2) {
-        House x1 = getHouse(numOfHouse1);
-        House x2 = getHouse(numOfHouse2);
-        return HouseService.compareArea(x1, x2);
+        House house1 = getHouse(numOfHouse1);
+        House house2 = getHouse(numOfHouse2);
+        return HouseService.compareArea(house1, house2);
     }
 
     public int compareHeight(int numOfHouse1, int numOfHouse2) {
-        House x1 = getHouse(numOfHouse1);
-        House x2 = getHouse(numOfHouse2);
-        return HouseService.compareHeight(x1, x2);
+        House house1 = getHouse(numOfHouse1);
+        House house2 = getHouse(numOfHouse2);
+        return HouseService.compareHeight(house1, house2);
     }
 
     public int compareNumOfPeople(int numOfHouse1, int numOfHouse2) {
-        House x1 = getHouse(numOfHouse1);
-        House x2 = getHouse(numOfHouse2);
-        return HouseService.compareNumOfPeople(x1, x2);
+        House house1 = getHouse(numOfHouse1);
+        House house2 = getHouse(numOfHouse2);
+        return HouseService.compareNumOfPeople(house1, house2);
     }
 
     public int compareArea(int numOfHouse1, int numOfApartment1, int numOfHouse2, int numOfApartment2) {
-        House x1 = getHouse(numOfHouse1);
-        House x2 = getHouse(numOfHouse2);
-        return HouseService.compareArea(x1, numOfApartment1, x2, numOfApartment2);
+        House house1 = getHouse(numOfHouse1);
+        House house2 = getHouse(numOfHouse2);
+        return HouseService.compareArea(house1, numOfApartment1, house2, numOfApartment2);
     }
 
     public int compareNumOfPeople(int numOfHouse1, int numOfApartment1, int numOfHouse2, int numOfApartment2) {
-        House x1 = getHouse(numOfHouse1);
-        House x2 = getHouse(numOfHouse2);
-        return HouseService.compareNumOfPeople(x1, numOfApartment1, x2, numOfApartment2);
+        House house1 = getHouse(numOfHouse1);
+        House house2 = getHouse(numOfHouse2);
+        return HouseService.compareNumOfPeople(house1, numOfApartment1, house2, numOfApartment2);
     }
 
     @Override
